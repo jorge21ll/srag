@@ -1,5 +1,5 @@
 import { Equipment } from "../../model/Equipment";
-import { IEquipmentsRepository } from "../../repositories/IEquipmentsRepositoy";
+import { IEquipmentsRepository } from "../../repositories/IEquipmentsRepository";
 
 class ListEquipmentUseCase {
   constructor(private equipmentsRepository: IEquipmentsRepository) {}

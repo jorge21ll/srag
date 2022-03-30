@@ -4,10 +4,21 @@ import {
   IObjectivesRepository,
 } from "../IObjectivesRepository";
 
-class ObjectivesRepositoy implements IObjectivesRepository {
+class ObjectivesRepository implements IObjectivesRepository {
   private objectives: Objective[];
-  constructor() {
+
+  // eslint-disable-next-line no-use-before-define
+  private static INSTANCE: ObjectivesRepository;
+
+  private constructor() {
     this.objectives = [];
+  }
+
+  public static getInstance(): ObjectivesRepository {
+    if (!ObjectivesRepository.INSTANCE) {
+      ObjectivesRepository.INSTANCE = new ObjectivesRepository();
+    }
+    return ObjectivesRepository.INSTANCE;
   }
   findByName(name: string): Objective {
     const equipment = this.objectives.find(
@@ -31,4 +42,4 @@ class ObjectivesRepositoy implements IObjectivesRepository {
     this.objectives.push(objective);
   }
 }
-export { ObjectivesRepositoy };
+export { ObjectivesRepository };

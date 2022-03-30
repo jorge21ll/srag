@@ -2,7 +2,7 @@ import { Equipment } from "../../model/Equipment";
 import {
   ICreateEquipmentDTO,
   IEquipmentsRepository,
-} from "../IEquipmentsRepositoy";
+} from "../IEquipmentsRepository";
 
 class EquipmentsRepository implements IEquipmentsRepository {
   private equipments: Equipment[];

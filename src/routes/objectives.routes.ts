@@ -1,17 +1,24 @@
 import { Router } from "express";
+import multer from "multer";
 
-import { ObjectivesRepositoy } from "../modules/objectives/repositories/implementations/ObjectivesRepository";
 import { createObjectiveController } from "../modules/objectives/useCases/createObjective";
+import { importObjectiveController } from "../modules/objectives/useCases/importObjectives";
+import { listObjectiveController } from "../modules/objectives/useCases/listObjectives";
 
 const objectiveRoutes = Router();
-const objectivesRepository = new ObjectivesRepositoy();
+
+const upload = multer({
+  dest: "./tmp",
+});
 
 objectiveRoutes.post("/", (request, response) => {
   return createObjectiveController.handle(request, response);
 });
 
 objectiveRoutes.get("/", (request, response) => {
-  const allObjectives = objectivesRepository.list();
-  return response.status(200).json(allObjectives);
+  return listObjectiveController.hanlde(request, response);
+});
+objectiveRoutes.post("/import", upload.single("file"), (request, response) => {
+  return importObjectiveController.handle(request, response);
 });
 export { objectiveRoutes };

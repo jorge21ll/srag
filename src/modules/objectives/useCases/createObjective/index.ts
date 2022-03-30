@@ -1,8 +1,8 @@
-import { ObjectivesRepositoy } from "../../repositories/implementations/ObjectivesRepository";
+import { ObjectivesRepository } from "../../repositories/implementations/ObjectivesRepository";
 import { CreateObjectiveController } from "./CreateObjectiveController";
 import { CreateObjectiveUseCase } from "./CreateObjectiveUseCase";
 
-const objectivesRepository = new ObjectivesRepositoy();
+const objectivesRepository = ObjectivesRepository.getInstance();
 const createObjectiveUseCase = new CreateObjectiveUseCase(objectivesRepository);
 const createObjectiveController = new CreateObjectiveController(
   createObjectiveUseCase
