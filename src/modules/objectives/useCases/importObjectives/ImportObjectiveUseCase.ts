@@ -25,6 +25,7 @@ class ImportObjectiveUseCase {
           });
         })
         .on("end", () => {
+          fs.promises.unlink(file.path);
           resolve(objectives);
         })
         .on("error", (err) => {

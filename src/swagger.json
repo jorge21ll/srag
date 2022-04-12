@@ -1,0 +1,72 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Srag Documentation",
+    "description": "This is an API Srag",
+    "version": "1.0.0",
+    "contact": {
+      "email": "sedhas@sobral.ce.gov.br"
+    }
+  },
+  "paths": {
+    "/objectives": {
+      "post": {
+        "tags": ["Objective"],
+        "summary": "Create a objective",
+        "description": "Create a new objecitve",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "Objective name example"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201":{
+            "description": "Created"
+          },
+          "500": {
+            "description": "Objective already exists!"
+          }
+        }
+      },
+      "get": {
+        "tags": ["Objective"],
+        "summary": "List all objectives ",
+        "description": "List all objectives API",
+        "responses": {
+          "200":{
+            "descritpion": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      }
+                    }
+                  } 
+                }
+              }
+            }
+          }
+        }
+
+      }
+
+    }
+  }
+}
