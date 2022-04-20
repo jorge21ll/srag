@@ -2,7 +2,7 @@ import { ObjectivesRepository } from "../../repositories/implementations/Objecti
 import { ImportObjectiveController } from "./ImportObjectiveController";
 import { ImportObjectiveUseCase } from "./ImportObjectiveUseCase";
 
-const objectiveRepository = ObjectivesRepository.getInstance();
+const objectiveRepository = null;
 const importObjectiveUseCase = new ImportObjectiveUseCase(objectiveRepository);
 const importObjectiveController = new ImportObjectiveController(
   importObjectiveUseCase

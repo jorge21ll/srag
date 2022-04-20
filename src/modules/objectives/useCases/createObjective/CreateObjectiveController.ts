@@ -4,9 +4,9 @@ import { CreateObjectiveUseCase } from "./CreateObjectiveUseCase";
 
 class CreateObjectiveController {
   constructor(private createObjectiveUseCase: CreateObjectiveUseCase) {}
-  handle(request: Request, response: Response): Response {
+  async handle(request: Request, response: Response): Promise<Response> {
     const { name } = request.body;
-    this.createObjectiveUseCase.execute({
+    await this.createObjectiveUseCase.execute({
       name,
     });
     return response.status(201).send();

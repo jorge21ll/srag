@@ -1,13 +1,12 @@
-import { Objective } from "../model/Objective";
+import { Objective } from "../entities/Objective";
 
 interface ICreateObjectiveDTO {
   name: string;
 }
 
 interface IObjectivesRepository {
-  findByName(name: string): Objective;
-  findByID(id: string): Objective;
-  list(): Objective[];
-  create({ name }: ICreateObjectiveDTO): void;
+  findByName(name: string): Promise<Objective>;
+  list(): Promise<Objective[]>;
+  create({ name }: ICreateObjectiveDTO): Promise<void>;
 }
 export { IObjectivesRepository, ICreateObjectiveDTO };

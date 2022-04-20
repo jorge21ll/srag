@@ -1,45 +1,33 @@
-import { Objective } from "../../model/Objective";
+import { getRepository, Repository } from "typeorm";
+
+import { Objective } from "../../entities/Objective";
 import {
   ICreateObjectiveDTO,
   IObjectivesRepository,
 } from "../IObjectivesRepository";
 
 class ObjectivesRepository implements IObjectivesRepository {
-  private objectives: Objective[];
+  private repository: Repository<Objective>;
 
-  // eslint-disable-next-line no-use-before-define
-  private static INSTANCE: ObjectivesRepository;
-
-  private constructor() {
-    this.objectives = [];
+  constructor() {
+    this.repository = getRepository(Objective);
   }
 
-  public static getInstance(): ObjectivesRepository {
-    if (!ObjectivesRepository.INSTANCE) {
-      ObjectivesRepository.INSTANCE = new ObjectivesRepository();
-    }
-    return ObjectivesRepository.INSTANCE;
-  }
-  findByName(name: string): Objective {
-    const equipment = this.objectives.find(
-      (objective) => objective.name === name
-    );
-    return equipment;
-  }
-  findByID(id: string): Objective {
-    console.log(id);
-    throw new Error("Method not implemented.");
-  }
-  list(): Objective[] {
-    return this.objectives;
-  }
-  create({ name }: ICreateObjectiveDTO): void {
-    const objective = new Objective();
-    Object.assign(objective, {
+  async create({ name }: ICreateObjectiveDTO): Promise<void> {
+    const objective = this.repository.create({
       name,
-      created_at: new Date(),
     });
-    this.objectives.push(objective);
+    await this.repository.save(objective);
+  }
+
+  async list(): Promise<Objective[]> {
+    const objectives = await this.repository.find();
+    return objectives;
+  }
+
+  async findByName(name: string): Promise<Objective> {
+    const objective = await this.repository.findOne({ name });
+    return objective;
   }
 }
 export { ObjectivesRepository };

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from "multer";
 
-import { createObjectiveController } from "../modules/objectives/useCases/createObjective";
+import createObjectiveController from "../modules/objectives/useCases/createObjective";
 import { importObjectiveController } from "../modules/objectives/useCases/importObjectives";
 import { listObjectiveController } from "../modules/objectives/useCases/listObjectives";
 
@@ -12,7 +12,7 @@ const upload = multer({
 });
 
 objectiveRoutes.post("/", (request, response) => {
-  return createObjectiveController.handle(request, response);
+  return createObjectiveController().handle(request, response);
 });
 
 objectiveRoutes.get("/", (request, response) => {

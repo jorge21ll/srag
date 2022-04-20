@@ -1,4 +1,4 @@
-import { Objective } from "../../model/Objective";
+import { Objective } from "../../entities/Objective";
 import { IObjectivesRepository } from "../../repositories/IObjectivesRepository";
 
 class ListObjectiveUseCase {

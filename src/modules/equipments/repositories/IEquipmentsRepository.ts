@@ -1,4 +1,4 @@
-import { Equipment } from "../model/Equipment";
+import { Equipment } from "../entities/Equipment";
 
 interface ICreateEquipmentDTO {
   name: string;

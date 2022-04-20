@@ -2,9 +2,13 @@ import { ObjectivesRepository } from "../../repositories/implementations/Objecti
 import { CreateObjectiveController } from "./CreateObjectiveController";
 import { CreateObjectiveUseCase } from "./CreateObjectiveUseCase";
 
-const objectivesRepository = ObjectivesRepository.getInstance();
-const createObjectiveUseCase = new CreateObjectiveUseCase(objectivesRepository);
-const createObjectiveController = new CreateObjectiveController(
-  createObjectiveUseCase
-);
-export { createObjectiveController };
+export default (): CreateObjectiveController => {
+  const objectivesRepository = new ObjectivesRepository();
+  const createObjectiveUseCase = new CreateObjectiveUseCase(
+    objectivesRepository
+  );
+  const createObjectiveController = new CreateObjectiveController(
+    createObjectiveUseCase
+  );
+  return createObjectiveController;
+};

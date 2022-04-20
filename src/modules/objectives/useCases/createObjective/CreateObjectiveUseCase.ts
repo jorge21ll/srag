@@ -6,8 +6,11 @@ interface IRequest {
 
 class CreateObjectiveUseCase {
   constructor(private objectivesRepository: IObjectivesRepository) {}
-  execute({ name }: IRequest) {
-    const objectiveAlreadyExists = this.objectivesRepository.findByName(name);
+
+  async execute({ name }: IRequest): Promise<void> {
+    const objectiveAlreadyExists = await this.objectivesRepository.findByName(
+      name
+    );
     if (objectiveAlreadyExists) {
       throw new Error("Objective already exists!");
     }
