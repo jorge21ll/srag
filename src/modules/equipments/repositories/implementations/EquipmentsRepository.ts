@@ -1,3 +1,5 @@
+import { getRepository, Repository } from "typeorm";
+
 import { Equipment } from "../../entities/Equipment";
 import {
   ICreateEquipmentDTO,
@@ -5,45 +7,34 @@ import {
 } from "../IEquipmentsRepository";
 
 class EquipmentsRepository implements IEquipmentsRepository {
-  private equipments: Equipment[];
+  private repository: Repository<Equipment>;
 
-  // eslint-disable-next-line no-use-before-define
-  private static INSTANCE: EquipmentsRepository;
-
-  private constructor() {
-    this.equipments = [];
+  constructor() {
+    this.repository = getRepository(Equipment);
   }
 
-  public static getInstance(): EquipmentsRepository {
-    if (!EquipmentsRepository.INSTANCE) {
-      EquipmentsRepository.INSTANCE = new EquipmentsRepository();
-    }
-    return EquipmentsRepository.INSTANCE;
-  }
-  findById(id: string): Equipment {
-    console.log(id);
-    throw new Error("Method not implemented.");
-  }
-  create({ name, address, street, email }: ICreateEquipmentDTO): void {
-    const equipment = new Equipment();
-    Object.assign(equipment, {
+  async create({
+    name,
+    address,
+    street,
+    email,
+  }: ICreateEquipmentDTO): Promise<void> {
+    const equipment = this.repository.create({
       name,
       address,
       street,
       email,
-      created_at: new Date(),
     });
-    this.equipments.push(equipment);
+    await this.repository.save(equipment);
   }
 
-  list(): Equipment[] {
-    return this.equipments;
+  async list(): Promise<Equipment[]> {
+    const equipments = await this.repository.find();
+    return equipments;
   }
 
-  findByName(name: string): Equipment {
-    const equipment = this.equipments.find(
-      (equipment) => equipment.name === name
-    );
+  async findByName(name: string): Promise<Equipment> {
+    const equipment = await this.repository.findOne({ name });
     return equipment;
   }
 }

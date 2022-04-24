@@ -1,3 +1,5 @@
+import { inject, injectable } from "tsyringe";
+
 import { IEquipmentsRepository } from "../../repositories/IEquipmentsRepository";
 
 interface IRequest {
@@ -6,10 +8,18 @@ interface IRequest {
   street: string;
   email: string;
 }
+
+@injectable()
 class CreateEquipmentUseCase {
-  constructor(private equipmentsRepository: IEquipmentsRepository) {}
-  execute({ name, address, street, email }: IRequest): void {
-    const equipmentAlreadyExists = this.equipmentsRepository.findByName(name);
+  constructor(
+    @inject("EquipmentsRepository")
+    private equipmentsRepository: IEquipmentsRepository
+  ) {}
+
+  async execute({ name, address, street, email }: IRequest): Promise<void> {
+    const equipmentAlreadyExists = await this.equipmentsRepository.findByName(
+      name
+    );
     if (equipmentAlreadyExists) {
       throw new Error("Equipment already exists!");
     }

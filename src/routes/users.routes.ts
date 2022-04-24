@@ -1,36 +1,23 @@
+import "reflect-metadata";
 import { Router } from "express";
 
-import { UsersRepository } from "../modules/users/repositories/implementations/UsersRepository";
-import { AlterUserService } from "../modules/users/services/AlterUserService";
-import { CreateUserService } from "../modules/users/services/CreateUserService";
-import { DeleteUserService } from "../modules/users/services/DeleteUserService";
+import { CreateUserController } from "../modules/accounts/users/useCases/createUser/CreateUserController";
+import { ListUserController } from "../modules/accounts/users/useCases/listUser/ListUserController";
+import { UpdateUserController } from "../modules/accounts/users/useCases/updateUser/UpdateUserController";
 
 const usersRoutes = Router();
 
-const usersRepository = new UsersRepository();
+const createUserController = new CreateUserController();
+const listUserControlerr = new ListUserController();
+const updateUserController = new UpdateUserController();
 
-usersRoutes.post("/", (request, response) => {
-  const { name, cpf, email, password } = request.body;
-  const createUserService = new CreateUserService(usersRepository);
-  createUserService.execute({
-    name,
-    cpf,
-    email,
-    password,
-  });
-  return response.status(201).send();
-});
-usersRoutes.get("/", (request, response) => {
-  const all = usersRepository.list();
-  return response.status(200).json(all);
-});
-usersRoutes.put("/", (request, response) => {
-  const { cpf } = request.headers;
-  const alterUserService = new AlterUserService(usersRepository);
-});
-usersRoutes.delete("/", (request, response) => {
-  const { cpf } = request.body;
-  const deleteUserService = new DeleteUserService(usersRepository);
-  const user = deleteUserService.execute(cpf);
-});
+usersRoutes.post("/", createUserController.handle);
+
+usersRoutes.get("/", listUserControlerr.handle);
+usersRoutes.put("/", updateUserController.handle);
+// usersRoutes.delete("/", (request, response) => {
+//   const { cpf } = request.body;
+//   const deleteUserService = new DeleteUserService(usersRepository);
+//   const user = deleteUserService.execute(cpf);
+// });
 export { usersRoutes };

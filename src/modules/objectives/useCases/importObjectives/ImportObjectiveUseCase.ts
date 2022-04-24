@@ -1,5 +1,6 @@
 import { parse } from "csv-parse";
 import fs from "fs";
+import { inject, injectable } from "tsyringe";
 
 import { IObjectivesRepository } from "../../repositories/IObjectivesRepository";
 
@@ -7,8 +8,12 @@ interface IImportObjecitve {
   name: string;
 }
 
+@injectable()
 class ImportObjectiveUseCase {
-  constructor(private objectiveRepository: IObjectivesRepository) {}
+  constructor(
+    @inject("ObjectivesRepository")
+    private objectiveRepository: IObjectivesRepository
+  ) {}
 
   loadObjectives(file: Express.Multer.File): Promise<IImportObjecitve[]> {
     return new Promise((resolve, reject) => {
@@ -38,7 +43,7 @@ class ImportObjectiveUseCase {
 
     objectives.map(async (objective) => {
       const { name } = objective;
-      const existObjecitve = this.objectiveRepository.findByName(name);
+      const existObjecitve = await this.objectiveRepository.findByName(name);
 
       if (!existObjecitve) {
         this.objectiveRepository.create({ name });

@@ -1,11 +1,17 @@
+import { inject, injectable } from "tsyringe";
+
 import { IObjectivesRepository } from "../../repositories/IObjectivesRepository";
 
 interface IRequest {
   name: string;
 }
 
+@injectable()
 class CreateObjectiveUseCase {
-  constructor(private objectivesRepository: IObjectivesRepository) {}
+  constructor(
+    @inject("ObjectivesRepository")
+    private objectivesRepository: IObjectivesRepository
+  ) {}
 
   async execute({ name }: IRequest): Promise<void> {
     const objectiveAlreadyExists = await this.objectivesRepository.findByName(

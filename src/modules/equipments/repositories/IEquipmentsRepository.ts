@@ -7,9 +7,8 @@ interface ICreateEquipmentDTO {
   email: string;
 }
 interface IEquipmentsRepository {
-  findByName(name: string): Equipment;
-  findById(id: string): Equipment;
-  list(): Equipment[];
-  create({ name, address, street, email }: ICreateEquipmentDTO): void;
+  findByName(name: string): Promise<Equipment>;
+  list(): Promise<Equipment[]>;
+  create({ name, address, street, email }: ICreateEquipmentDTO): Promise<void>;
 }
 export { IEquipmentsRepository, ICreateEquipmentDTO };

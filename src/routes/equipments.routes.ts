@@ -1,15 +1,15 @@
+import "reflect-metadata";
 import { Router } from "express";
 
-import { createEquipmentController } from "../modules/equipments/useCases/createEquipments";
-import { listEquipmentController } from "../modules/equipments/useCases/listEquipments";
+import { CreateEquipmentController } from "../modules/equipments/useCases/createEquipments/CreateEquipmentController";
+import { ListEquipmentController } from "../modules/equipments/useCases/listEquipments/ListEquipmentController";
 
 const equipmentsRoutes = Router();
 
-equipmentsRoutes.post("/", (request, response) => {
-  return createEquipmentController.handle(request, response);
-});
+const createEquipmentController = new CreateEquipmentController();
+const listEquipmentController = new ListEquipmentController();
 
-equipmentsRoutes.get("/", (request, response) => {
-  return listEquipmentController.handle(request, response);
-});
+equipmentsRoutes.post("/", createEquipmentController.handle);
+
+equipmentsRoutes.get("/", listEquipmentController.handle);
 export { equipmentsRoutes };

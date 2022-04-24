@@ -1,9 +1,10 @@
+import "reflect-metadata";
 import { Router } from "express";
 import multer from "multer";
 
-import createObjectiveController from "../modules/objectives/useCases/createObjective";
-import { importObjectiveController } from "../modules/objectives/useCases/importObjectives";
-import { listObjectiveController } from "../modules/objectives/useCases/listObjectives";
+import { CreateObjectiveController } from "../modules/objectives/useCases/createObjective/CreateObjectiveController";
+import { ImportObjectiveController } from "../modules/objectives/useCases/importObjectives/ImportObjectiveController";
+import { ListObjectiveController } from "../modules/objectives/useCases/listObjectives/ListObjectiveController";
 
 const objectiveRoutes = Router();
 
@@ -11,14 +12,17 @@ const upload = multer({
   dest: "./tmp",
 });
 
-objectiveRoutes.post("/", (request, response) => {
-  return createObjectiveController().handle(request, response);
-});
+const createObjectiveController = new CreateObjectiveController();
+const importObjectiveController = new ImportObjectiveController();
+const listObjectiveController = new ListObjectiveController();
 
-objectiveRoutes.get("/", (request, response) => {
-  return listObjectiveController.hanlde(request, response);
-});
-objectiveRoutes.post("/import", upload.single("file"), (request, response) => {
-  return importObjectiveController.handle(request, response);
-});
+objectiveRoutes.post("/", createObjectiveController.handle);
+
+objectiveRoutes.get("/", listObjectiveController.hanlde);
+
+objectiveRoutes.post(
+  "/import",
+  upload.single("file"),
+  importObjectiveController.handle
+);
 export { objectiveRoutes };

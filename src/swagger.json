@@ -9,6 +9,53 @@
     }
   },
   "paths": {
+    "/equipments":{
+      "post":{
+        "tags": ["Equipment"],
+        "summary": "Create a new equipment",
+        "description":"Create a new equipment",
+        "requestBody":{
+          "content":{
+            "application/json":{
+              "schema": {
+                "$ref": "#definitions/Equipment"
+              },
+              "example": {
+                "name":"Equipment name example",
+                "address": "Address equipment example",
+                "street": "Street equipment example",
+                "email": "Email equipment example"
+              }
+            }
+          }
+        },
+        "responses":{
+          "201":{
+            "description": "Created"
+          },
+          "500":{
+            "description": "Equipment already exists!"
+          }
+        }
+      },
+      "get": {
+        "tags":["Equipment"],
+        "summary": "List all equipments",
+        "description": "List all equipments",
+        "responses": {
+          "200":{
+            "description": "Success",
+            "content":{
+              "application/json": {
+                "schema": {
+                  "$ref": "#definitions/Equipment"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/objectives": {
       "post": {
         "tags": ["Objective"],
@@ -18,15 +65,10 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string"
-                  }
-                },
-                "example": {
-                  "name": "Objective name example"
-                }
+                "$ref": "#definitions/Objective"
+              },
+              "example": {
+                "name": "Objective name example"
               }
             }
           }
@@ -50,15 +92,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "name": {
-                        "type": "string"
-                      }
-                    }
-                  } 
+                  "$ref": "#definitions/Objective"
                 }
               }
             }
@@ -66,7 +100,118 @@
         }
 
       }
-
+    },
+    "/objectives/import":{
+      "post":{
+        "tags":["Objective"],
+      "summary": "Upload a new objectives",
+      "description": "Uploading of objectives",
+      "requestBody":{
+        "content":{
+          "multipart/form-data":{
+            "schema":{
+              "type":"object",
+              "properties":{
+                "file":{
+                  "type":"string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses":{
+        "200":{
+          "description": "Created"
+        }
+      }
+      } 
+    },
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a user",
+        "description": "Created a new user",
+        "requestBody":{
+          "content":{
+            "application/json":{
+              "schema":{
+                "$ref": "#/definitions/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "User already exists!"
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "List all users",
+        "description":"List all users API",
+        "responses":{
+          "200":{
+            "description": "Success",
+            "content":{
+              "application/json": {
+                "schema":{
+                  "$ref": "#definitions/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type":"object",
+      "properties":{
+        "name": {
+          "type": "string"
+        },
+        "cpf": {
+          "type":"string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Equipment":{
+      "type": "object",
+      "properties":{
+        "name":{
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "street": {
+          "type":"string"
+        },
+        "email": {
+          "type":"string"
+        }
+      }
+    },
+    "Objective":{
+      "type":"object",
+      "properties":{
+        "name":{
+          "type":"string"
+        }
+      }
     }
   }
 }
