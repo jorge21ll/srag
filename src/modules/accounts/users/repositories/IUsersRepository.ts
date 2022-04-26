@@ -3,6 +3,7 @@ import { User } from "../entities/User";
 
 interface IUsersRepository {
   findByCpf(cpf: string): Promise<User>;
+  findByEmail(email: string): Promise<User>;
   list(): Promise<User[]>;
   create(data: ICreateUserDTO): Promise<void>;
 }

@@ -1,3 +1,4 @@
+import { hash } from "bcrypt";
 import { inject, injectable } from "tsyringe";
 
 import {
@@ -12,6 +13,7 @@ class CreateUserUseCase {
     private usersRepository: IUsersRepository
   ) {}
   async execute({ name, cpf, email, password }: ICreateUserDTO): Promise<void> {
+    const passwordHash = await hash(password, 8);
     const userAlreadyExists = await this.usersRepository.findByCpf(cpf);
     if (userAlreadyExists) {
       throw new Error("User already exists!");
@@ -20,7 +22,7 @@ class CreateUserUseCase {
       name,
       cpf,
       email,
-      password,
+      password: passwordHash,
     });
   }
 }
