@@ -1,6 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 
+import { UsersRepository } from "../modules/accounts/users/repositories/implementations/UsersRepository";
+
+interface IPayload {
+  sub: string;
+}
+
 export async function ensureAuthenticated(
   request: Request,
   response: Response,
@@ -15,8 +21,17 @@ export async function ensureAuthenticated(
   const [, token] = authHeader.split(" ");
 
   try {
-    const decoded = verify(token, "82cd8d03d6c328939703c92b8ff04ba7");
-    console.log(decoded);
+    const { sub: user_id } = verify(
+      token,
+      "82cd8d03d6c328939703c92b8ff04ba7"
+    ) as IPayload;
+
+    const usersRepository = new UsersRepository();
+    const user = await usersRepository.findById(user_id);
+
+    if (!user) {
+      throw new Error("User does not exists!");
+    }
 
     next();
   } catch {
