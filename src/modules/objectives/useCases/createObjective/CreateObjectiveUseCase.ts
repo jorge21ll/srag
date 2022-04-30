@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
+import { AppError } from "../../../../errors/AppErros";
 import { IObjectivesRepository } from "../../repositories/IObjectivesRepository";
 
 interface IRequest {
@@ -18,7 +19,7 @@ class CreateObjectiveUseCase {
       name
     );
     if (objectiveAlreadyExists) {
-      throw new Error("Objective already exists!");
+      throw new AppError("Objective already exists!");
     }
     this.objectivesRepository.create({
       name,

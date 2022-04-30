@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
+import { AppError } from "../../../../errors/AppErros";
 import { IEquipmentsRepository } from "../../repositories/IEquipmentsRepository";
 
 interface IRequest {
@@ -21,7 +22,7 @@ class CreateEquipmentUseCase {
       name
     );
     if (equipmentAlreadyExists) {
-      throw new Error("Equipment already exists!");
+      throw new AppError("Equipment already exists!");
     }
     this.equipmentsRepository.create({
       name,

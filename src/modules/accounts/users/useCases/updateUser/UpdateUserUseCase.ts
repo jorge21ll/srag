@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
+import { AppError } from "../../../../../errors/AppErros";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 interface IRequest {
@@ -19,7 +20,7 @@ class UpdateUserUseCase {
   async execute({ name, cpf, email, password }: IRequest): Promise<void> {
     const userAlreadyExists = await this.usersRepository.findByCpf(cpf);
     if (!userAlreadyExists) {
-      throw new Error("User not exists!");
+      throw new AppError("User not exists!");
     }
     userAlreadyExists.cpf = cpf;
     userAlreadyExists.name = name;

@@ -8,7 +8,7 @@
 //   execute({ cpf }: IRequest) {
 //     const userAlreadyExists = this.usersRepository.findByCpf(cpf);
 //     if (!userAlreadyExists) {
-//       throw new Error("User not found!");
+//       throw new AppError("User not found!");
 //     }
 //     return userAlreadyExists;
 //   }
